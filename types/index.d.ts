@@ -6,5 +6,8 @@ declare module 'filepond' {
         /** Enable or disable image selecting */
         allowImageSelect?: boolean;
         selectCallback?: (file: FilePondFile) => void;
+        selectImageButtonPosition?: string;
+        selectImageButtonTitle?: string;
+        selectImageButtonIcon?: string;
     }
 }
