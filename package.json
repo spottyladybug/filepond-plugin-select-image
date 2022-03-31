@@ -1,11 +1,11 @@
 {
-  "name": "filepond-plugin-select-image-button",
+  "name": "filepond-plugin-select-image",
   "version": "0.0.1",
   "description": "Select image button plugin for FilePond",
   "license": "MIT",
-  "main": "dist/filepond-plugin-select-image-button.js",
-  "browser": "dist/filepond-plugin-select-image-button.js",
-  "module": "dist/filepond-plugin-select-image-button.esm.js",
+  "main": "dist/filepond-plugin-select-image.js",
+  "browser": "dist/filepond-plugin-select-image.js",
+  "module": "dist/filepond-plugin-select-image.esm.js",
   "browserslist": [
     "last 1 version and not Explorer 10",
     "Explorer 11",
@@ -22,8 +22,8 @@
     "build": "npm run scripts | npm run styles",
     "scripts": "npx rollup -c",
     "styles": "npm run styles:pretty && npm run styles:nano",
-    "styles:pretty": "cat src/css/* | npx postcss --no-map --use postcss-nested autoprefixer | npx prettier --single-quote --parser css | node banner-cli.js FilePondPluginSelectImageButton > dist/filepond-plugin-select-image-button.css",
-    "styles:nano": "cat src/css/* | npx postcss --no-map --use postcss-nested autoprefixer --use cssnano | node banner-cli.js FilePondPluginSelectImageButton > dist/filepond-plugin-select-image-button.min.css"
+    "styles:pretty": "cat src/css/* | npx postcss --no-map --use postcss-nested autoprefixer | npx prettier --single-quote --parser css | node banner-cli.js FilePondPluginSelectImage > dist/filepond-plugin-select-image.css",
+    "styles:nano": "cat src/css/* | npx postcss --no-map --use postcss-nested autoprefixer --use cssnano | node banner-cli.js FilePondPluginSelectImage > dist/filepond-plugin-select-image.min.css"
   },
   "peerDependencies": {
     "filepond": ">=3.7.2 <5.x"

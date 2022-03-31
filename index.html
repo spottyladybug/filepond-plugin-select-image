@@ -12,14 +12,14 @@
             href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
             rel="stylesheet"
         />
-        <link href="./dist/filepond-plugin-select-image-button.css" rel="stylesheet" />
+        <link href="./dist/filepond-plugin-select-image.css" rel="stylesheet" />
     </head>
     <body>
         <input type="file" />
 
         <img src="" class="output" />
 
-        <script src="./dist/filepond-plugin-select-image-button.js"></script>
+        <script src="./dist/filepond-plugin-select-image.js"></script>
         <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
         <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
         <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
@@ -33,64 +33,17 @@
                 FilePondPluginImageCrop,
                 FilePondPluginImageResize,
                 FilePondPluginImagePreview,
-                FilePondPluginSelectImageButton,
+                FilePondPluginSelectImage,
                 FilePondPluginImageTransform
             );
 
             // Get a reference to the file input element
             const inputElement = document.querySelector('input[type="file"]');
 
-            const editor = {
-                // Called by FilePond to edit the image
-                // - should open your image editor
-                // - receives file object and image edit instructions
-                open: (file, instructions) => {
-                    console.log('open', file, { ...instructions });
-
-                    // the user "edits" the data (this part is handled by a separate image cropper/editor plugin)
-                    const data = Object.assign({}, instructions);
-
-                    // user zooms image
-                    data.crop.zoom = 2;
-
-                    // ser sets grayscale filter
-                    // prettier-ignore
-                    data.colorMatrix = [
-                        0.212, 0.715, 0.114, 0.000, 0.000,
-                        0.212, 0.715, 0.114, 0.000, 0.000,
-                        0.212, 0.715, 0.114, 0.000, 0.000,
-                        0.000, 0.000, 0.000, 1.000, 0.000
-                    ];
-
-                    // the user is done editing, simulate confirm
-                    setTimeout(() => {
-                        console.log('onconfirm', data);
-                        editor.onconfirm({ data });
-
-                        console.log('onclose');
-                        editor.onclose();
-                    }, 1000);
-                },
-
-                // Callback set by FilePond
-                // - should be called by the editor when user confirms editing
-                // - should receive output object, resulting edit information
-                onconfirm: output => {},
-
-                // Callback set by FilePond
-                // - should be called by the editor when user cancels editing
-                oncancel: () => {},
-
-                // Callback set by FilePond
-                // - should be called by the editor when user closes the editor
-                onclose: () => {},
-            };
-
             // Create the FilePond instance
             const pond = FilePond.create(inputElement, {
                 imageCropAspectRatio: '1:1',
                 imageResizeTargetWidth: 200,
-                imageEditEditor: editor,
                 onpreparefile: (file, output) => {
                     console.log('onpreparefile');
                     document.querySelector(

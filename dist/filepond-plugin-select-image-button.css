@@ -5,21 +5,24 @@
  */
 
 /* eslint-disable */
-.filepond--action-edit-item.filepond--action-edit-item {
+.filepond--root[data-style-panel-layout~='circle']
+    .filepond--action-select-item {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.filepond--action-select-item.filepond--action-select-item {
     width: 2em;
     height: 2em;
     padding: 0.1875em;
 }
-
-.filepond--action-edit-item.filepond--action-edit-item[data-align*='center'] {
+.filepond--action-select-item.filepond--action-select-item[data-align*='center'] {
     margin-left: -0.1875em;
 }
-
-.filepond--action-edit-item.filepond--action-edit-item[data-align*='bottom'] {
+.filepond--action-select-item.filepond--action-select-item[data-align*='bottom'] {
     margin-bottom: -0.1875em;
 }
 
-.filepond--action-edit-item-alt {
+.filepond--action-select-item-alt {
     border: none;
     line-height: inherit;
     background: transparent;
@@ -32,16 +35,16 @@
     position: absolute;
 }
 
-.filepond--action-edit-item-alt svg {
+.filepond--action-select-item-alt svg {
     width: 1.3125em;
     height: 1.3125em;
 }
 
-.filepond--action-edit-item-alt span {
+.filepond--action-select-item-alt span {
     font-size: 0;
     opacity: 0;
 }
-.filepond--root[data-style-panel-layout~='circle'] .filepond--action-edit-item {
-    opacity: 1 !important;
-    visibility: visible !important;
+
+.filepond--action-select-item svg {
+    padding: 4px;
 }
