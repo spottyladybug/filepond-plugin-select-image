@@ -3,7 +3,7 @@ import build from './rollup.scripts';
 
 export default build(
 	{
-		id: 'FilePondPluginSelectImageButton',
+		id: 'FilePondPluginSelectImage',
 		...pkg
 	},
 	[

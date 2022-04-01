@@ -1,7 +1,7 @@
 {
   "name": "filepond-plugin-select-image",
   "version": "0.0.1",
-  "description": "Select image button plugin for FilePond",
+  "description": "Select image plugin for FilePond",
   "license": "MIT",
   "main": "dist/filepond-plugin-select-image.js",
   "browser": "dist/filepond-plugin-select-image.js",

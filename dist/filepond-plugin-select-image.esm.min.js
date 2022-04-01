@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginSelectImageButton 0.0.1
+ * FilePondPluginSelectImage 0.0.1
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
