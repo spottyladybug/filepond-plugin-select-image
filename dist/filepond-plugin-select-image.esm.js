@@ -55,7 +55,7 @@ const plugin = _ => {
             // handle interactions
             root.ref.handleSelect = e => {
                 e.stopPropagation();
-                selectCallback(file);
+                selectCallback(item.serverId);
             };
 
             const icon = query('GET_SELECT_IMAGE_BUTTON_ICON');

@@ -74,7 +74,7 @@
                 // handle interactions
                 root.ref.handleSelect = function(e) {
                     e.stopPropagation();
-                    selectCallback(file);
+                    selectCallback(item.serverId);
                 };
 
                 var icon = query('GET_SELECT_IMAGE_BUTTON_ICON');
