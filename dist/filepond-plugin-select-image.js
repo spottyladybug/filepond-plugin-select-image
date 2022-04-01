@@ -38,9 +38,15 @@
                 view = viewAPI.view,
                 query = viewAPI.query;
 
+            var buttonView;
+            var buttonCheckView;
+
             var canShowImagePreview = query('GET_ALLOW_IMAGE_PREVIEW');
             var canShowSelectButton = query('GET_ALLOW_IMAGE_SELECT');
             var selectCallback = query('GET_SELECT_CALLBACK');
+            var checkIcon =
+                '<svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class=""><path d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"></path></svg>';
+            var icon = query('GET_SELECT_IMAGE_BUTTON_ICON');
 
             if (!canShowSelectButton) return;
 
@@ -73,16 +79,45 @@
 
                 // handle interactions
                 root.ref.handleSelect = function(e) {
+                    document.dispatchEvent(
+                        new CustomEvent('FilePond:checkimage', {
+                            fileId: id,
+                            e: e,
+                        })
+                    );
+
+                    root.ref.buttonSelectItem.opacity = 0;
+                    root.ref.buttonCheckItem.opacity = 1;
+                    root.dispatch('KICK');
                     e.stopPropagation();
                     selectCallback(item.serverId);
                 };
 
-                var icon = query('GET_SELECT_IMAGE_BUTTON_ICON');
+                // handle interactions
+                root.ref.handleUnselect = function(e) {
+                    root.ref.buttonSelectItem.opacity = 1;
+                    root.ref.buttonCheckItem.opacity = 0;
+                    root.dispatch('KICK');
+                    e.stopPropagation();
+                    selectCallback(item.serverId);
+                };
+
+                document.addEventListener('FilePond:checkimage', function(
+                    _ref2
+                ) {
+                    var fileId = _ref2.fileId,
+                        e = _ref2.e;
+                    if (fileId === id) {
+                        return;
+                    }
+                    root.ref.handleUnselect(e);
+                });
+
                 var position = query('GET_SELECT_IMAGE_BUTTON_POSITION');
 
                 if (canShowImagePreview) {
                     // add select button to preview
-                    var buttonView = view.createChildView(fileActionButton, {
+                    buttonView = view.createChildView(fileActionButton, {
                         label: 'select',
                         icon: icon,
                         opacity: 0,
@@ -101,40 +136,29 @@
                     root.ref.buttonSelectItem = view.appendChildView(
                         buttonView
                     );
-                } else {
-                    // view is file info
-                    var filenameElement = view.element.querySelector(
-                        '.filepond--file-info-main'
-                    );
 
-                    var selectButton = document.createElement('button');
-                    selectButton.className = 'filepond--action-select-item-alt';
-                    selectButton.innerHTML = icon + '<span>select</span>';
-                    selectButton.addEventListener(
-                        'click',
-                        root.ref.handleSelect
-                    );
-                    filenameElement.appendChild(selectButton);
+                    // add select button to preview
+                    buttonCheckView = view.createChildView(fileActionButton, {
+                        label: 'unselect',
+                        icon: checkIcon,
+                        opacity: 0,
+                    });
 
-                    root.ref.selectButton = selectButton;
+                    // select item classname
+                    buttonCheckView.element.classList.add(
+                        'filepond--action-check-item'
+                    );
+                    buttonCheckView.element.dataset.align = position;
+                    buttonCheckView.element.title = query(
+                        'GET_SELECT_IMAGE_BUTTON_TITLE'
+                    );
+                    buttonCheckView.on('click', root.ref.handleUnselect);
+
+                    root.ref.buttonCheckItem = view.appendChildView(
+                        buttonCheckView
+                    );
                 }
             };
-
-            view.registerDestroyer(function(_ref2) {
-                var root = _ref2.root;
-                if (root.ref.buttonSelectItem) {
-                    root.ref.buttonSelectItem.off(
-                        'click',
-                        root.ref.handleSelect
-                    );
-                }
-                if (root.ref.selectButton) {
-                    root.ref.selectButton.removeEventListener(
-                        'click',
-                        root.ref.handleSelect
-                    );
-                }
-            });
 
             var routes = {
                 DID_LOAD_ITEM: didLoadItem,
@@ -146,6 +170,7 @@
                     var root = _ref3.root;
                     if (!root.ref.buttonSelectItem) return;
                     root.ref.buttonSelectItem.opacity = 1;
+                    root.ref.buttonCheckItem.opacity = 0;
                 };
 
                 routes.DID_IMAGE_PREVIEW_SHOW = didPreviewUpdate;

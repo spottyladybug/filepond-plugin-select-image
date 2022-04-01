@@ -45,6 +45,12 @@
     opacity: 0;
 }
 
-.filepond--action-select-item svg {
+.filepond--action-select-item svg,
+.filepond--action-check-item svg
+{
     padding: 4px;
+}
+
+.filepond--action-check-item {
+    background-color: rgba(20, 151, 97, 70%);
 }
